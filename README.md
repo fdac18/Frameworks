@@ -3,10 +3,10 @@ GitHub Project Relationships and NPM Dependencies
 
 # How to get the NPM advisory data
  - Install [nodejs](https://nodejs.org/en/download/)
- - Open up a terminal and navigate to `/Dependencies/`
+ - Open up a terminal or command prompt and navigate to `/Dependencies/`
  - run `npm install nsp` then `nsp gather`
 
-# Patching ```advisory.json``` with version information
+# Getting development environment up and running
 - Install [python 3](https://www.python.org/downloads/) or setup [Anaconda](https://www.anaconda.com/download/) (Preferred)
 - Python:
   - Open a terminal or command prompt and navigate to `/Dependencies/`
