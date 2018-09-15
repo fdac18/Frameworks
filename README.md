@@ -19,3 +19,6 @@ GitHub Project Relationships and NPM Dependencies
 # Patching ```advisory.json``` with version information
 - Open a terminal, command prompt, or Anaconda prompt
 - Run `python patch_advisories.py advisories.json`
+ - This step will take a while, npmjs.com rate limits connections to ~100 requests every so often
+ - It should be able to overcome the rate limit, but it is possible that the script will need to be rerun
+ - If it needs to be rerun then copy/rename `patched_advisories.json` to `advisories.json` and then rerun it
