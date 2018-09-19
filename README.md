@@ -37,11 +37,11 @@ Here is a couple of popular and competitive frameworks:
 ## Objective
 **predict popularity of frameworks in future**  
 sub-objectives:
-  1. collect framework related resources (time information must be included):
-    - identify projects that uses these frameworks, collect commits & authors of these projects
-    - collect package dependencies and dependents of each framework
-    - collect related questions and answers of each framework on StackOverflow
-    - retrieve issues and responses of each framework
-    - downloads of each framework
+  1. collect framework related resources (time information must be included):  
+    - identify projects that uses these frameworks, collect commits & authors of these projects  
+    - collect package dependencies and dependents of each framework  
+    - collect related questions and answers of each framework on StackOverflow  
+    - retrieve issues and responses of each framework  
+    - downloads of each framework  
   2. calculate predictors based on collected data and train a model (choice model) to make predictions
   3. build a website to show our collected data, result of model, spread trend of each framework, etc.
