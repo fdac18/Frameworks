@@ -8,8 +8,5 @@
 - [Vue](https://github.com/vuejs/vue)
 - [Backbone](https://github.com/jashkenas/backbone)
 - [Ember](https://github.com/emberjs/ember.js)
-- [Aurelia](https://github.com/aurelia/framework)
-- [Meteor](https://github.com/meteor/meteor)
-- [Enyo](https://github.com/enyojs/enyo)
 
 Technically speaking, React and jQuery aren't frameworks, but because they are _essentially_ considered one and their popularity over the years has been astounding, it would be a disservice to not include both.
