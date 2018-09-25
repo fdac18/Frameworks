@@ -1,5 +1,5 @@
 | framework | npm |
-|:-:|:-:|:-:|
+|:-:|:-:|
 | [jQuery](https://github.com/jquery/jquery) | [jquery](https://www.npmjs.com/package/jquery) |
 | [React](https://github.com/facebook/react) | [react](https://www.npmjs.com/package/react) |
 | [Angular](https://github.com/angular/angular/) | [angular](https://www.npmjs.com/package/angular) |
