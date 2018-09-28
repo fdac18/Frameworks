@@ -1,5 +1,8 @@
 # Goal – predict which JavaScript front end framework will be the most popular
 
+## Proposal
+[Here](https://www.overleaf.com/read/nzbqqjghjkhf) is a formalized IEEE document detailing the intentions of our project.
+
 ## Background
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Choosing from amongst even the most popular JavaScript frameworks for a new project can be a challenging process. There seems to be a new handful gaining popularity every year or so, and the previous ones don’t seem to lose steam either! It's very interesting to predict which framework will take over the market in future.
 
