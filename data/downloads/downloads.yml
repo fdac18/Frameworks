@@ -1,4 +1,4 @@
-name: data
+name: downloads
 channels:
   - defaults
 dependencies:
@@ -24,4 +24,3 @@ dependencies:
   - wheel=0.31.1=py37_0
   - win_inet_pton=1.0.1=py37_1
   - wincertstore=0.2=py37_0
-
