@@ -5,12 +5,11 @@
 
 # Getting development environment up and running
 - Install [python 3](https://www.python.org/downloads/) or setup [Anaconda](https://www.anaconda.com/download/) (Preferred)
+- Open a terminal, command prompt, or Anaconda Prompt and navigate to `/Frameworks/data/advisories`
 - Python:
-  - Open a terminal or command prompt and navigate to `/Dependencies/`
   - [Create a python virtualenv](https://packaging.python.org/guides/installing-using-pip-and-virtualenv/)
   - Activate the virtual environment and run `pip install -r requirements.txt`
 - Anaconda:
-  - Open a terminal or Anaconda Prompt and navigate to `/Dependencies/`
   - Create an Anaconda env with `conda env create -f dependencies.yml`
 
 # Patching ```advisory.json``` with version information
