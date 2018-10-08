@@ -1,4 +1,3 @@
-import pymongo
 from io import IOBase
 
 
@@ -53,7 +52,8 @@ class GitLineReader:
             return
 
 
-thereader = GitLineReader('/Users/pprovins/Documents/RDPrograms/data_arch_mongo/read_file_t1')
+thefile = input('Select a file to parse: ')
+thereader = GitLineReader(thefile)
 while thereader.active:
     thereader.get_new_line()
     if not thereader.active:
