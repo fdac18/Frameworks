@@ -60,6 +60,8 @@ clusterExport(cluster, c(“full_data”, “burnin”, “iter”, “keep”, 
 - of k, and does the cross-validation serially.  This is because it is assumed there
 - are more candidate values of k than there are cross-validation folds, hence it
 - will be more efficient to parallelise
+
+
 system.time({
 results <- foreach(j = 1:length(candidate_k), .combine = rbind) %dopar%{
    k <- candidate_k[j]
