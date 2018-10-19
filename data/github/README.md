@@ -15,3 +15,7 @@
 # Clean Github Issues
 - `python clean_issues.py`
 - Only do this after you've collected the dirty data.
+
+# Gathering Comments
+- api url `https://api.github.com/repos/{owner}/{repo}/issues/{issue_num}`
+- comments url `https://api.github.com/repos/{owner}/{repo}/issues/{issue_num}/comments`
