@@ -13,7 +13,6 @@ token = sys.argv[2]
 
 def api_helper(url):
   req = requests.get(url, auth=(user, token))
-  links = requests.utils.parse_header_links(req.headers['Link'])
   next_link = req.links['next']['url'] if 'next' in req.links else None
   return req, next_link
 
