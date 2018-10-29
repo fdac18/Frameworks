@@ -23,9 +23,8 @@ for repo in repos:
 
   for key in data.keys():
     time = key.split('/')
-    path = '../data_by_month/%s-%s' % (time[0], time[1])
-    if os.path.isdir(path) is not True:
-      os.mkdir(path)
-    with open(path + '/%s.json' % repo, "w+") as f:
+    path = '../data_by_month/%s-%s-%s.json' % (repo, time[0], time[1])
+    print('dumping %s' % path)
+    with open(path, "w+") as f:
       json.dump(data[key], f)
 
