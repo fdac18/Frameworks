@@ -23,8 +23,7 @@ for repo in repos:
 
   for key in data.keys():
     time = key.split('/')
-    path = '../data_by_month/%s-%s-%s.json' % (repo, time[0], time[1])
-    print('dumping %s' % path)
+    path = '../data_by_month/%s-%s-%s.json' % (repo, time[1], time[0].rjust(2, '0'))
     with open(path, "w+") as f:
       json.dump(data[key], f)
 
