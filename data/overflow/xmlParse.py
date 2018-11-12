@@ -3,6 +3,7 @@ import untangle
 
 from bs4 import BeautifulSoup
 from pymongo import MongoClient
+from xmlr import xmliter
 
 
 class TagDocument:
@@ -23,52 +24,52 @@ class TagDocument:
 
 
 class PostDocument:
-    def __init__(self, xmlpost: untangle.Element) -> 'Creates a .json doc from an XML' \
+    def __init__(self, xmlpost: dict) -> 'Creates a .json doc from an XML' \
                                                     ' element to insert in the post collection':
-        assert isinstance(xmlpost, untangle.Element)
+        assert isinstance(xmlpost, dict)
         self.insertable = {}
-        if xmlpost['Id']:
-            self.insertable['Id'] = xmlpost['Id']
-        if xmlpost['Id']:
-            self.insertable['PostTypeId'] = xmlpost['PostTypeId']
-        if xmlpost['CreationDate']:
-            self.insertable['CreationDate'] = xmlpost['CreationDate']
-        if xmlpost['Score']:
-            self.insertable['Score'] = xmlpost['Score']
-        if xmlpost['ViewCount']:
-            self.insertable['ViewCount'] = xmlpost['ViewCount']
-        if xmlpost['Body']:
-            self.insertable['Body'] = BeautifulSoup(xmlpost['Body'], features="html.parser").get_text()
-        if xmlpost['Title']:
-            self.insertable['Title'] = xmlpost['Title']
-        if xmlpost['Tags']:
+        if '@Id' in xmlpost:
+            self.insertable['Id'] = xmlpost['@Id']
+        if '@PostTypeId' in xmlpost:
+            self.insertable['PostTypeId'] = xmlpost['@PostTypeId']
+        if '@CreationDate' in xmlpost:
+            self.insertable['CreationDate'] = xmlpost['@CreationDate']
+        if '@Score' in xmlpost:
+            self.insertable['Score'] = xmlpost['@Score']
+        if '@ViewCount' in xmlpost:
+            self.insertable['ViewCount'] = xmlpost['@ViewCount']
+        if '@Body' in xmlpost:
+            self.insertable['Body'] = BeautifulSoup(xmlpost['@Body'], features="html.parser").get_text()
+        if '@Title' in xmlpost:
+            self.insertable['Title'] = xmlpost['@Title']
+        if '@Tags' in xmlpost:
             self.insertable['Tags'] = []
-            tags = re.findall(r'\<(.*?)\>', xmlpost['Tags'])
+            tags = re.findall(r'\<(.*?)\>', xmlpost['@Tags'])
             for striptag in tags:
                 self.insertable['Tags'].append(striptag)
         else:
             self.insertable['Tags'] = []
-        if xmlpost['AnswerCount']:
-            self.insertable['AnswerCount'] = xmlpost['AnswerCount']
-        if xmlpost['CommentCount']:
-            self.insertable['CommentCount'] = xmlpost['CommentCount']
+        if '@AnswerCount' in xmlpost:
+            self.insertable['AnswerCount'] = xmlpost['@AnswerCount']
+        if '@CommentCount' in xmlpost:
+            self.insertable['CommentCount'] = xmlpost['@CommentCount']
 
 
 class CommentDocument:
-    def __init__(self, xmlcomment: untangle.Element) -> 'Creates a.json doc from an XML element to insert into the ' \
+    def __init__(self, xmlcomment: dict) -> 'Creates a.json doc from an XML element to insert into the ' \
                                                         'Comment collection':
-        assert isinstance(xmlcomment, untangle.Element)
+        assert isinstance(xmlcomment, dict)
         self.insertable = {}
-        if xmlcomment['Id']:
-            self.insertable['Id'] = xmlcomment['Id']
-        if xmlcomment['PostId']:
-            self.insertable['PostId'] = xmlcomment['PostId']
-        if xmlcomment['Score']:
-            self.insertable['Score'] = xmlcomment['Score']
-        if xmlcomment['Text']:
-            self.insertable['Text'] = BeautifulSoup(xmlcomment['Text'], features="html.parser").get_text()
-        if xmlcomment['CreationDate']:
-            self.insertable['CreationDate'] = xmlcomment['CreationDate']
+        if '@Id' in xmlcomment:
+            self.insertable['Id'] = xmlcomment['@Id']
+        if '@PostId' in xmlcomment:
+            self.insertable['PostId'] = xmlcomment['@PostId']
+        if '@Score' in xmlcomment:
+            self.insertable['Score'] = xmlcomment['@Score']
+        if '@Text' in xmlcomment:
+            self.insertable['Text'] = BeautifulSoup(xmlcomment['@Text'], features="html.parser").get_text()
+        if '@CreationDate' in xmlcomment:
+            self.insertable['CreationDate'] = xmlcomment['@CreationDate']
 
 
 activeclient = MongoClient(host='da1')
@@ -90,14 +91,12 @@ for tag in tagXML.tags.children:
     mongotag = TagDocument(tag)
     tagcol.insert_one(mongotag.insertable)
 
-postXML = untangle.parse(postfile)
-for post in postXML.posts.children:
+for post in xmliter(postfile, "row"):
     mongopost = PostDocument(post)
     posttags = set(mongopost.insertable['Tags'])
     if neededtagset.intersection(posttags):
         postcol.insert_one(mongopost.insertable)
 
-commentXML = untangle.parse(commentfile)
-for comment in commentXML.comments.children:
+for comment in xmliter(commentfile, "row"):
     mongocomment = CommentDocument(comment)
     commentcol.insert_one(mongocomment.insertable)
