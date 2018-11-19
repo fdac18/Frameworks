@@ -1,23 +1,39 @@
 {
-  "name": "website",
-  "version": "0.1.0",
-  "homepage": "https://fdac18.github.io/Frameworks",
-  "private": true,
-  "dependencies": {
-    "react": "^16.5.2",
-    "react-dom": "^16.5.2",
-    "react-scripts": "1.1.5"
+  "name": "heroku-cra-node",
+  "version": "1.0.0",
+  "description": "How to use create-react-app with a custom Node API on Heroku",
+  "engines": {
+    "node": "8.9.x"
   },
   "scripts": {
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "start": "node server",
+    "heroku-postbuild": "cd react-ui/ && npm install && npm install --only=dev --no-shrinkwrap && npm run build",
+    "dev": "concurrently \"npm run-script dev:server\" \"npm run-script dev:client\"",
+    "dev:server": "nodemon server",
+    "dev:client": "cd .\\react-ui\\ && npm run-script start"
   },
-  "devDependencies": {
-    "eslint": "^5.6.1",
-    "gh-pages": "^2.0.1"
-  }
+  "cacheDirectories": [
+    "node_modules",
+    "react-ui/node_modules"
+  ],
+  "dependencies": {
+    "@material-ui/core": "^3.5.1",
+    "concurrently": "^4.1.0",
+    "express": "^4.16.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mars/heroku-cra-node.git"
+  },
+  "keywords": [
+    "node",
+    "heroku",
+    "create-react-app",
+    "react"
+  ],
+  "nodemonConfig": {
+    "watch": "server/"
+  },
+  "license": "MIT",
+  "devDependencies": {}
 }
