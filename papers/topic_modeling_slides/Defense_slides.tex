@@ -1,0 +1,414 @@
+% Thesis defense slides
+% June 29 2017
+% Dr Dale Bowman Dr Saunak Sen Dr Su Chen
+% Topic Modeling
+
+%%%%%%%%%%%%%%%%%%%% SETUP %%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass{beamer}
+
+\newcommand{\bw}{\mbox{\boldmath $w$}}
+\newcommand{\bz}{\mbox{\boldmath $Z$}}
+\newcommand{\bt}{\mbox{\boldmath $\theta$}}
+\newcommand{\bp}{\mbox{\boldmath $\phi$}}
+
+\mode<presentation>
+{
+\usetheme{Warsaw}
+\setbeamercovered{transparent}
+}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes.geometric,arrows,fit,calc,positioning,automata,}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{times}
+\usepackage{amsmath}
+\usepackage[T1]{fontenc}
+\graphicspath{ {images/} }
+\setbeamerfont{footnote}{size=\tiny}
+%%%%%%%%%%%%%%%%%%%% TITLE PAGE  %%%%%%%%%%%%%%%%%%%%%%%%%
+\title[Topic Modeling] % (optional, use only with long paper titles)
+{Topic Modeling}
+\subtitle
+{Comparison of methods for choosing an optimum value for the number of topics in an LDA model} 
+\author{Patricia Jean Goedecke} % (optional, use only with lots of authors)
+\institute{Supervised by Dr. Dale Bowman \\Mathematical Sciences, Statistics\\University of Memphis} % (optional, but mostly needed)
+\subject{Topic Modeling}
+% If you wish to uncover everything in a step-wise fashion, uncomment
+% the following command: 
+%\beamerdefaultoverlayspecification{<+->}
+
+\begin{document}
+\begin{frame}
+\titlepage
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%% OUTLINE %%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Outline}
+\tableofcontents %[pausesections]
+% You might wish to add the option[pausesections]
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%% INTRODUCTION %%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+\begin{frame}{Introduction}
+\end{frame}
+
+
+
+\begin{frame}{Introduction: What is topic modeling?}
+\begin{itemize}
+\item
+Unsupervised dimension reduction or clustering technique\\
+\vspace{.3cm}
+\item Assumes latent topics joining documents to words orthogonally\\
+\vspace{.3cm}
+\item Originally used with large corpuses of text data\\
+\vspace{.3cm}
+\item Recently applied to other big data including biomedical data sets 
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Introduction: What is topic modeling?}
+\begin{figure}[htb!]
+\includegraphics[width=8cm,height=5cm]{LDA.png}
+\end{figure}
+\footnotetext[0]{Image credit Blei 2011}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%% PRE-LDA %%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Methods leading to Latent Dirichlet Allocation}
+\begin{frame}{Methods leading to Latent Dirichlet Allocation}
+\end{frame}
+
+
+% Deerwester et al. (1990) 
+%%subsection{Latent Semantic Analysis and singular value decomposition}
+\begin{frame}{Latent Semantic Analysis (LSA)}
+\begin{columns}
+\column{.25\textwidth}
+\begin{figure}[htb!]
+\includegraphics[width=2.75cm,height=2.4cm]{Deerwester.jpg}
+\end{figure}
+
+\column{.7\textwidth}
+\begin{itemize}
+\item Deerwester et al. (1990) \\
+\item unsupervised text modeling technique
+\item term by document matrix 
+\item orthogonal factors 
+\item New indexing method found "promising" 
+\end{itemize}
+\end{columns}
+\footnotetext[1]{Photographic Archive, [apf12345], Special Collections Research Center, \\University of Chicago Library.}
+\end{frame}
+
+% pLSI Hofmann(1999) 
+%subsection{Probabilistic Latent Semantic Analysis}
+\begin{frame}{Probabilistic latent semantic indexing (pLSI, pLSA)}
+\begin{columns}
+\column{.3\textwidth}
+\begin{figure}[htb!]
+\includegraphics[width=2.75cm,height=2.75cm]{pLSI.jpg}
+\end{figure}
+\column{.7\textwidth}
+\begin{itemize}
+\item Hofmann (1999)
+\item uses a mixture decomposition
+\item maximum likelihood model
+\item tempered expectation–maximization (EM) iterative algorithm 
+\end{itemize}
+\end{columns}
+\footnotetext[2]{Image credit: http://www.cnblogs.com/yuzhung/archive.html }
+\end{frame}
+
+
+% NNMF Lee Seung (1999); Ding (2008)
+\begin{frame}{Non-negative matrix factorizaton (NMF)}
+\begin{columns}
+\column{.4\textwidth}
+\begin{figure}[htb!]
+\includegraphics[width=4cm,height=3cm]{NMF.jpg}
+\end{figure}
+\column{.6\textwidth}
+\begin{itemize}
+\item Lee \&\ Seung (1999)
+\item parts-based representation
+\item described as a neural network
+\item found by Ding (2008) to optimize the same objective function as pLSI
+\end{itemize}
+\end{columns}
+\footnotetext[1]{Image credit Nature.com Lee \&\ Seung (1999)}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%% LDA %%%%%%%%%%%%%%%%%%%%%%%%%
+\section{LDA and current trends}
+\begin{frame}{LDA and current trends}
+\end{frame}
+
+% Blei, Ng and Jordan (2003) 
+\begin{frame}{Latent Dirichlet allocation (LDA)}
+\begin{columns}
+\column{.3\textwidth}
+\begin{figure}[htb!]
+\includegraphics[width=3cm,height=4cm]{Blei.jpg}
+\end{figure}
+\column{.7\textwidth}
+\begin{itemize}
+\item Blei, Ng and Jordan (2003).
+\item document is finite mixture over topics
+\item topic is infinite mixture over probability distribution
+\item modeled using variational methods, EM algorithm
+\end{itemize}
+\end{columns}
+\footnotetext[2]{Photo credit: Denise Applewhite}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%% Current Trends %%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\begin{frame}{Expanding applications}
+\begin{figure}[htb!]
+\includegraphics[width=8cm,height=5cm]{EMR-cartoon.jpg}
+\end{figure}
+\footnotetext[1]{ cldeanrobles.files.wordpress.com }
+\end{frame}
+
+\begin{frame}{Topic coherence \&\ selecting the number of topics}
+\begin{columns}
+\column{.3\textwidth}
+\begin{figure}[htb!]
+\includegraphics[width=3cm,height=3cm]{polyaurn.png}
+\end{figure}
+\column{.7\textwidth}
+\begin{itemize}
+\item Pointwise Mutual Information (PMI), Newman et al. (2010)
+\item Generalized P\'{o}lya Urn model, Mimno et al. (2011) 
+\end{itemize}
+\end{columns}
+\footnotetext[1]{http://fac.ksu.edu.sa/raguech/blog/173205}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%% Topic Modeling with LDA %%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Topic modeling using latent Dirichlet allocation}
+\begin{frame}{Topic modeling using latent Dirichlet allocation}
+\end{frame}
+
+\begin{frame}{de Finetti's theorem and exchangeability}
+\begin{columns}
+\column{.3\textwidth}
+\begin{figure}[htb!]
+\includegraphics[width=3cm,height=4cm]{BagofWords.jpg}
+\end{figure}
+\column{.7\textwidth}
+\begin{itemize}
+\item Exchangeable random variables are conditionally independent,
+conditioned on some latent variable
+\item In topic modeling, words are conditionally independent,
+conditioned on topic
+\end{itemize}
+\end{columns}
+\footnotetext[1]{http://www.novuslight.com.html}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%% Document generation %%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{LDA hypothetical document generation}
+Representation $\sim$
+\begin{enumerate}
+\item  A corpus consists of $D$ documents\vspace{.5cm}
+\item  A document consists of $N$ words from vocabulary of size $V$
+\vspace{.5cm}
+\item Each word $w_{n}$ is chosen from one of $K$ topics.
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{LDA hypothetical document generation}
+\begin{enumerate}
+\item Number of words (N) for document selected from Poisson, parameter {\mbox{\boldmath $\xi$}}. \\
+\item Multinomial probability vector {\mbox{\boldmath $\theta$}}  length $K$ selected from Dirichlet, parameter {\mbox{\boldmath $\alpha$}}
+\item The$n$th word is chosen from the following process:
+\end{enumerate}
+\begin{itemize}
+\item Choose a topic, $Z_n$, from $Mult(1,\theta)$
+\item Choose a $V \times 1$ vector $\phi$ from $Dir(\beta_{Z_n})$
+\item Choose a word, $w_n$ from $Mult(1, \phi)$
+\end{itemize}
+\end{frame}
+
+\begin{frame}{LDA hypothetical document generation}
+In this model
+\begin{itemize}
+\item $w_{nj}$=1 if the $n$th word is the $j$th in the vocabulary
+\item $Z_{ni}$ = 1 if the $n$th word is in topic $i$
+\item $w_{nj}$ is observed
+\item $Z_{ni}$ is unobserved
+\item $\phi_{ij}$ =$ p(w_{nj}$ = $1|z_{ni}=1)$
+\end{itemize}
+\end{frame}
+
+\begin{frame}{LDA hypothetical document generation}
+As only one word occurs at each location in a document, 
+    \vspace{0.2cm}
+\begin{center}
+{\mbox{\boldmath{$\sum_{i=1}^{K}Z_{ni} = \sum_{j=1}^{V}w_{nj} = 1$}}}.
+\end{center}
+%\end{enumerate}
+\end{frame}
+
+
+
+\section{K optimization methods}
+\begin{frame}{K optimization methods}
+\end{frame}
+
+
+\begin{frame}{Perplexity (P)}
+ 
+\begin{itemize}
+\item Blei et al. (2003)
+\item Algebraic inverse of geometric mean per-word  likelihood
+\item Lower perplexity scores indicate better performance
+\item Metric intrinsic to the LDA modeling process
+\end{itemize}
+%\end{frame}
+
+%\begin{frame}{Perplexity (P)}
+$$	
+P = \exp \left\{ -\frac{\sum_{d=1}^{D_M} \log P({\bf w_d})}{\sum_{d=1}^{D_M} N_d} \right\}
+$$
+\end{frame}
+
+
+
+\begin{frame}{Perplexity (P)}
+\begin{figure}[htb!]
+\includegraphics[width=8cm,height=5cm]{perplexity.png}
+\end{figure}
+\footnotetext[1]{Blei et al., 2003}
+\end{frame}
+
+
+\begin{frame}{Change in perplexity (dP)}
+\begin{itemize}
+\item Zhao et al. (2015)
+\item Observed to be more stable and efficient as compared with raw peplexity
+\end{itemize}
+%\end{frame}
+
+%\begin{frame}{Change in perplexity (dP)}
+
+$$
+dP = \frac{ P_{i+1} - P_{i}}{K_{i+1} - K_{i}}
+$$
+\end{frame}
+
+
+\begin{frame}{Change in perplexity (dP)}
+\begin{figure}[htb!]
+\includegraphics[width=8cm,height=5cm]{dPerplexity.png}
+\end{figure}
+\footnotetext[1]{Zhao et al., 2015}
+\end{frame}
+
+
+
+\begin{frame}{2nd derivative of perplexity (d2P)}
+\begin{itemize}
+\item The zero line clarifies the change point described by Zhao et al.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{2nd derivative of perplexity (d2P)}
+\begin{figure}[htb!]
+\includegraphics[width=8cm,height=5cm]{d2Perplexity.png}
+\end{figure}
+\end{frame}
+
+
+
+\begin{frame}{Goodness Of Fit (GOF)}
+\begin{itemize}
+\item Bowman, Chen and George (in press)
+\item Statistical analysis of model output
+\item Proportion of documents significantly different than random as metric to evaluate K
+
+\item $H_{0}$: Topic assignment not different from random (uniform) assignment
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Goodness Of Fit (GOF)}
+\begin{figure}[htb!]
+\includegraphics[width=8cm,height=5cm]{GOF.png}
+\end{figure}
+\footnotetext[1]{Bowman, Chen and George (in press)}
+\end{frame}
+
+
+
+
+\begin{frame}{Pointwise Mutual Information (PMI)}
+\begin{columns}
+\column{.3\textwidth}
+\begin{figure}[htb!]
+\includegraphics[width=3cm,height=1.25cm]{PMI_formula.png}
+\end{figure}
+\column{.7\textwidth}
+\begin{itemize}
+\item Newman et al. (2010)
+\item Extrinsic to modeling process
+\item Corroborated by human judgment
+\end{itemize}
+\end{columns}
+\footnotetext[1]{Image credit: http://lintool.github.io/UMD-courses.html}
+\end{frame}
+
+
+\begin{frame}{Pointwise Mutual Information (PMI)}
+\begin{figure}[htb!]
+\includegraphics[width=8cm,height=5cm]{PMI.png}
+\end{figure}
+\footnotetext[1]{Naraula et al., 2013 }
+\end{frame}
+
+\begin{frame}{Pointwise Mutual Information per K (PMI / K)}
+\begin{figure}[htb!]
+\includegraphics[width=8cm,height=5cm]{PMI_K.png}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Change in Pointwise Mutual Information per K (PMI / K)}
+\begin{figure}[htb!]
+\includegraphics[width=8cm,height=5cm]{dPMI_K.png}
+\end{figure}
+\end{frame}
+
+
+
+
+%\section{Conclusions}
+\begin{frame}{Conclusion: Optimization method comparisons}
+\begin{itemize}
+\item Methods of optimizing $K$ do not converge
+\item Different optimization methods will be appropriate for differing purposes
+\item Judgment is called for
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Thank you}
+\begin{center}$\sim$ $Thank$  $you$  $\sim$
+\end{center}
+\end{frame}
+
+
+
+\end{document}
+
+
+
+
