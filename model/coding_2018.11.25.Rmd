@@ -1,0 +1,156 @@
+---
+title: "Frameworks 18K documents, COSC545"
+author: "Trish Goedecke with Jerry Duncan, Preston Provins"
+date: "11/24/2018"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+getwd()
+# setwd("//Users//pgoedec1//Documents//GitHub//Frameworks//data//github//")
+library(rjson)
+library(jsonlite)
+library(topicmodels)
+library(doParallel)
+library(ggplot2)
+library(scales)
+library(SnowballC)
+library(tm)
+library(quanteda)
+library(tidytext)
+library(dplyr)
+library(textmineR)
+library(lda)
+library(tidymodels) # broom package: https://broom.tidyverse.org/
+
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Import csv file
+```{r import_file}
+# full corpus / reduced corpus
+# fw_1 <- read.csv("text.csv")  # 40,333 obs of 2 vars
+# save(fw_1, file = "full_corpus.Rda")
+# load("full_corpus.Rda") # 
+load_obj <- function(f)
+{
+    env <- new.env()
+    nm <- load(f, env)[1]
+    env[[nm]]
+}
+# fw_1<-load_obj("full_corpus.Rda")
+# fw <- fw_1[c(1:300,16530:16829,18890:19189,24686:24985,26440:26739,33063:33362),]   # 1800 obs of 40,333
+# write.csv(fw, file = "docs1800_6frameworks.csv") 1.7 Mb
+# save(fw,file = "docs1800_6frameworks.Rda") 14.5 Mb
+# fw<-load_obj("docs1800_6frameworks.Rda")
+fw<- read.csv("docs1800_6frameworks.csv", colClasses=c(X0="character")) 
+colnames(fw) <-c("int1","int0","docs")
+# create rownames
+prefix<-c("angular","backbone","emberjs","jquery","react","vue")
+suffix<-seq(1:300)
+rownames_ang<-paste("angular",suffix,sep = "")
+rownames_back<-paste("backbone",suffix,sep = "")
+rownames_emb<-paste("emberjs",suffix,sep = "")
+rownames_jq<-paste("jquery",suffix,sep = "")
+rownames_re<-paste("react",suffix,sep = "")
+rownames_vu<-paste("vue",suffix,sep = "")
+sorted_names<-data.frame(lapply(matrix(c(rownames_ang,rownames_back,rownames_emb,rownames_jq,rownames_re,rownames_vu)),as.character),stringsAsFactors = FALSE)
+# .rowNamesDF(x, make.names=FALSE) <- value https://stat.ethz.ch/R-manual/R-devel/library/base/html/row.names.html
+# .rowNamesDF(fw, make.names=TRUE)<-sorted_names # works in Mac Rstudio; not in vmware pc
+row.names(fw)<-sorted_names
+# rownames(fw)
+fw$docs[1]
+# get alpha character portion of text only
+fw_character<-data.frame(matrix(nrow=1800, ncol = 1))
+for (i in 1:nrow(fw)){
+  fw_character[i,1]<-gsub('[0-9]+', '', gsub("[^[:alnum:][:space:]]","",fw$docs[i]))
+}
+class(fw_character)
+# apply rownames
+row.names(fw_character)<-sorted_names
+
+# fw_vec<-as.vector(na.omit(t_data)) # Large character (2000 elements, 2.2 Mb)
+# fw_vector<-as.vector(na.omit(fw_data[,1])) # Large character  (2000 elements, 2.2 Mb)
+
+fw_listed_1800 <- as.list(fw_character) # Large list (1800 elements, 1.7 Mb)
+
+fw_listed_1800[[1]][300]
+docs_1800<-fw_listed_1800[[1]]
+# Note: failed to attach names to list items. fw_listed_1800[[1]] is set of documents
+```
+
+
+
+## create corpus; then document-term matrix
+
+```{r doc_term_matrix, include=TRUE}
+# tm package
+# https://www.rdocumentation.org/packages/tm/versions/0.7-5/topics/TermDocumentMatrix
+
+# create corpus
+fw_corp <- tm:::Corpus(VectorSource(docs_1800)) # LargeSimpleCorpus (1800 elements, 1.7 Mb) : convert vector to corpus using tm package https://stackoverflow.com/questions/29209873/how-to-convert-vector-of-characters-to-corpus-input-for-the-documenttermmatrix-f
+
+# create document term matrix
+dtm_fw<-tm:::DocumentTermMatrix(fw_corp) # 1800 rows (documents); 15,399 columns (terms) Large DocumentTermMatrix (1800 elements, 1.7 Mb)
+# names(fw_corp[273]) # <<SimpleCorpus>> Metadata:  corpus specific: 1, document level (indexed): 0 Content:  documents: 1
+# fw_corp[[273]] # <<PlainTextDocument>> Metadata:  7 Content:  chars: 564
+
+# NOTE: date-time-stamp is a feature of each list item, we can retreive for later modeling.
+```
+
+## try topic modeling 
+
+```{r lda_topicmodel_here, include=TRUE}
+frameworks_lda_1800<-topicmodels:::LDA(dtm_fw, k=20, control = list(seed=1234), method = "VEM") 
+
+# Save S4 class object
+# save as binary https://stackoverflow.com/questions/25858822/easiest-way-to-save-an-s4-class
+
+
+save(frameworks_lda_1800, ascii=FALSE, file="fw_lda_1800_binary") # 20.7 Mb
+
+# save as  ASCII  https://stackoverflow.com/questions/25858822/easiest-way-to-save-an-s4-class
+save(frameworks_lda_1800, ascii=TRUE, file="fw_lda_1800_ascii") # ~68 Mb
+
+# ASCII text representation from which to regenerate the data 
+# dput(frameworks_lda_1800, file="fw_lda_1800_ascii_rep")  # Error: object fw_lda not found
+# y <- dget("fw_lda_1800_ascii_rep") # NULL (empty) # 11:37am Error in validObject(.Object) :   invalid class “LDA_VEM” object: invalid object for slot "call" in class "LDA_VEM": got class "LDA_VEM", should be or extend class "call"
+
+# file dump https://stat.ethz.ch/R-manual/R-devel/library/base/html/dump.html
+# dump(frameworks_lda_1800, file = "dump_fw_lda_1800.R", append = FALSE,
+#      control = "all", envir = parent.frame(), evaluate = TRUE) # Error in as.list.default(X): no method for coercing this S4 class to a vector
+
+```
+
+
+## get topics per doc from LDA model
+```{r doctopics, include=TRUE}
+Terms_fw <- terms(frameworks_lda_1800, 5)
+Terms_fw
+write.csv(Terms_fw,file="topic_terms_18Kdocs.csv")
+
+Topics_fw<-topics(frameworks_lda_1800,5)
+Topics_fw[1:5,1:10]
+tidy_fw_18k<-broom:::tidy(frameworks_lda_1800) # 310,320 obs of 3 vars: topic#, term, beta (probability of term per topic?)
+tfk<-tidy_fw_18k[40000:40005,]
+tfk
+class(tidy_fw_18k) # data frame
+sort_tidy<-tidy_fw_18k[order(-tidy_fw_18k$beta,tidy_fw$topic),] 
+sortable_1m<-sort_tidy[c(1:1000000),] # 1 million obs of 3 vars (nearing Excel max)
+write.csv(sortable_1m, file = "topic_terms_18Kdocs.csv") # ~47.3 Mb .csv file
+table_st_18k<-sort_tidy[c(1:1800),] # 66 Kb
+write.csv(sortable_18k, file = "sortable_18Kdocs.csv") #
+
+# get topics per document
+lda_fw_gamma <- broom:::tidy(frameworks_lda_1800, matrix = "gamma") # tbl_df 8.7 Mb 400,000 obs 3 vars
+colnames(lda_fw_gamma) # document topic gamma
+sort_doc_topics<-lda_fw_gamma[order(-lda_fw_gamma$gamma),] #788 Kb
+write.csv(sort_doc_topics, file = "doc_topics_18K.csv") #
+save(sort_doc_topics,file = "doc_topics_18Kdocs.Rda")
+
+
+
+
+```
