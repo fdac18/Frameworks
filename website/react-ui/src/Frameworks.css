@@ -1,0 +1,39 @@
+@import url("https://fonts.googleapis.com/css?family=Pacifico");
+
+.Homepage {
+  text-align: left;
+}
+
+.header {
+  background-color: #222;
+  height: 75px;
+  padding: 20px;
+  color: white;
+}
+
+.header-title {
+  margin-block-start: 0;
+  margin-block-end: 0;
+  font-size: 3em;
+  font-family: "Pacifico", cursive;
+  font-weight: 400;
+}
+
+.footer {
+  background-color: #222;
+  height: 30px;
+  width: 100vw;
+  padding: 10px;
+  color: white;
+  position: absolute;
+  bottom: 0;
+}
+
+.footer a {
+  font-size: 1em;
+  font-family: "Pacifico", cursive;
+  font-weight: 200;
+  padding-left: 30px;
+  color: white;
+  text-decoration: none;
+}
