@@ -19,7 +19,7 @@ sodata = client.fdac18stackoverflow
 postcol = sodata.posts
 
 for tag in neededtags:
-    anfile = open(f'{tag}.json', 'w+')
+    anfile = open(tag + '.json', 'w+')
     pipeline = [
         {
             "$match": {
