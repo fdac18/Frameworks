@@ -6,8 +6,9 @@
 
 .header {
   background-color: #222;
-  height: 75px;
+  height: 70px;
   padding: 20px;
+  padding-top: 0;
   color: white;
 }
 
@@ -23,7 +24,8 @@
   background-color: #222;
   height: 30px;
   width: 100vw;
-  padding: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   color: white;
   position: absolute;
   bottom: 0;
@@ -36,4 +38,9 @@
   padding-left: 30px;
   color: white;
   text-decoration: none;
+}
+
+.slider {
+  max-width: 90%;
+  transform: translate(5%, 0);
 }

@@ -1,22 +1,10 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
-import { CanvasJSChart } from "./lib/canvasjs.react";
-
-const frameworks = {
-  "angular": {
-    proper: "Angular"
-  }, "react": {
-    proper: "React"
-  }, "backbone": {
-    proper: "Backbone.js"
-  }, "ember": {
-    proper: "Ember.js"
-  }, "jquery": {
-    proper: "jQuery"
-  }, "vue": {
-    proper: "Vue.js"
-  }
-};
+import Downloads from "./Downloads";
+import Overflow from "./Overflow";
+import Github from "./Github";
+import Wordcloud from "./Wordcloud";
+import { frameworks } from "./Constants";
 
 class Framework extends Component {
   constructor(props) {
@@ -25,39 +13,23 @@ class Framework extends Component {
     if (!Object.keys(frameworks).includes(framework.toLowerCase())) this.props.history.push("/");
 
     this.state = {
-      downloads: require(`./data/${framework}_downloads.json`)
+      framework,
+      showDownloads: false,
+      showOverflow: false,
+      showGithub: false,
+      showWordcloud: true
     }
   }
 
   render() {
-    const { framework } = this.props.match.params;
-    const { downloads } = this.state;
-    const dataPoints = downloads.map(day => {
-      const date = day.d.split('-');
-      return {
-        x: new Date(date[0], parseInt(date[1]) - 1, date[2]),
-        y: day.c
-      }
-    });
-    const options = {
-      theme: "light2",
-      animationEnabled: true,
-      zoomEnabled: true,
-      title: {
-        text: `${frameworks[framework.toLowerCase()].proper} Downloads`
-      },
-      axisY: {
-        title: "Downloads",
-        includeZero: false
-      },
-      axisX: {
-        labelAngle: -30
-      },
-      data: [{ type: "area", dataPoints }]
-    }
     return (
-      <CanvasJSChart options={options} />
-    );
+      <div>
+        {this.state.showDownloads && <Downloads framework={this.state.framework} />}
+        {this.state.showOverflow && <Overflow framework={this.state.framework} />}
+        {this.state.showGithub && <Github framework={this.state.framework} />}
+        {this.state.showWordcloud && <Wordcloud framework={this.state.framework} />}
+      </div>
+    )
   }
 }
 
