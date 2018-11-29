@@ -31,4 +31,4 @@ pipeline = [
   }
 ]
 
-pprint.pprint(postcol.aggregate(pipeline))
+pprint.pprint(list(postcol.aggregate(pipeline)))
