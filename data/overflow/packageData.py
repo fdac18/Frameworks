@@ -44,5 +44,5 @@ for tag in neededtags:
             }
         }
     ]
-    anfile.write(list(postcol.aggregate(pipeline)))
+    anfile.write(str(list(postcol.aggregate(pipeline))))
     anfile.close()
