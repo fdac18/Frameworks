@@ -43,4 +43,4 @@ for tag in neededtags:
             }
         }
     ]
-print(pipeline)
+    print(pipeline)
