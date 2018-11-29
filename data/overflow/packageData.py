@@ -20,9 +20,9 @@ pipeline = [
       "_id": {
         "$concat": [
           {"$substr": [{"$year": "$CreationDate"}, 0, 4]},
-          "/",
+          "-",
           {"$substr": [{"$month": "$CreationDate"}, 0, 4]},
-          "/",
+          "-",
           {"$substr": [{"$dayOfMonth": "$CreationDate"}, 0, 4]}
         ]
       },
@@ -31,4 +31,5 @@ pipeline = [
   }
 ]
 
-pprint.pprint(list(postcol.aggregate(pipeline)))
+# postcol.aggregate(pipeline)
+print(pipeline)
