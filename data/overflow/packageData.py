@@ -34,4 +34,4 @@ pipeline = [
 # postcol.aggregate(pipeline)
 print(pipeline)
 
-pipeline('Tags') = 'vuejs2'
+pipeline['Tags'] = 'vuejs2'
