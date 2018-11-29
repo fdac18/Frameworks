@@ -19,6 +19,7 @@ sodata = client.fdac18stackoverflow
 postcol = sodata.posts
 
 for tag in neededtags:
+    anfile = open(f'{tag}.json', 'w+')
     pipeline = [
         {
             "$match": {
@@ -43,4 +44,5 @@ for tag in neededtags:
             }
         }
     ]
-    print(pipeline)
+    anfile.write(list(postcol.aggregate(pipeline)))
+    anfile.close()
