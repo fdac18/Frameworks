@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { CanvasJSChart } from "./lib/canvasjs.react";
 import { frameworks } from "./Constants";
+import "./Frameworks.css";
 
 class Downloads extends Component {
   constructor(props) {
@@ -37,7 +38,8 @@ class Downloads extends Component {
       axisX: {
         labelAngle: -30
       },
-      data: [{ type: "area", dataPoints }]
+      data: [{ type: "area", dataPoints }],
+      height: this.props.height
     }
     return (
       <CanvasJSChart options={options} />

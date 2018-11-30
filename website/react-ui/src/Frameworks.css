@@ -43,4 +43,5 @@
 .slider {
   max-width: 90%;
   transform: translate(5%, 0);
+  margin-bottom: 20px;
 }

@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { CanvasJSChart } from "./lib/canvasjs.react";
-import { frameworks } from "./Constants.js";
+import { frameworks } from "./Constants";
 
-class Overflow extends Component {
+class Issues extends Component {
   constructor(props) {
     super(props);
 
@@ -10,13 +10,13 @@ class Overflow extends Component {
 
     this.state = {
       framework,
-      overflow: require(`./data/${framework}_overflow.json`)
+      issues: require(`./data/${framework}_issues.json`)
     }
   }
 
   render() {
-    const { framework, overflow } = this.state;
-    const dataPoints = overflow.map(day => {
+    const { framework, issues } = this.state;
+    const dataPoints = issues.map(day => {
       const date = day.d.split('-');
       return {
         x: new Date(date[0], parseInt(date[1], 10) - 1, date[2]),
@@ -28,10 +28,10 @@ class Overflow extends Component {
       animationEnabled: true,
       zoomEnabled: true,
       title: {
-        text: `${frameworks[framework.toLowerCase()].proper} Stack Overflow Posts`
+        text: `${frameworks[framework.toLowerCase()].proper} Issues`
       },
       axisY: {
-        title: "Stack Overflow Posts",
+        title: "Issues",
         includeZero: false
       },
       axisX: {
@@ -46,4 +46,4 @@ class Overflow extends Component {
   }
 }
 
-export default Overflow;
+export default Issues;

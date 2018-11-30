@@ -17,7 +17,7 @@ class Homepage extends Component {
   render() {
     const styles = {
       cardImage: {
-        height: "calc((100vh - 115px - 50px)/2)"
+        height: "calc((100vh - 90px - 50px)/2)"
       }
     };
 

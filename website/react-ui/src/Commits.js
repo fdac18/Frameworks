@@ -37,7 +37,8 @@ class Github extends Component {
       axisX: {
         labelAngle: -30
       },
-      data: [{ type: "line", dataPoints }]
+      data: [{ type: "area", dataPoints }],
+      height: this.props.height
     }
     return (
       <CanvasJSChart options={options} />

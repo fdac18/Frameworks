@@ -11,24 +11,38 @@ class Wordcloud extends Component {
 
     const { framework } = props;
 
+    let multiplier;
+    const width = Math.max(document.body.clientWidth, window.innerWidth || 0);
+    if (width > 1000) {
+      multiplier = 10;
+    } else if (width > 500) {
+      multiplier = 5;
+    } else {
+      multiplier = 3;
+    }
+
     this.state = {
       framework,
       data: require(`./data/${framework}_words.json`),
-      value: { min: 0, max: 47 },
-      words: []
+      value: { min: 22, max: 25 },
+      words: [],
+      multiplier
     }
-    this.calculateWordCloud(this.state.value, true);
+  }
+
+  componentDidMount() {
+    this.calculateWordCloud(this.state.value);
   }
 
   formatLabel = value => {
     if (value < 0) value = 0;
-    if (value > 47) value = 47;
+    if (value > 46) value = 46;
     const month = months[value % 12];
     const year = years[Math.floor(value / 12)];
     return `${month} ${year}`;
   }
 
-  calculateWordCloud = (value, firstTime) => {
+  calculateWordCloud = value => {
     const { data } = this.state;
     const minYear = Math.floor(value.min / 12) + 2015;
     const minMonth = value.min % 12 - 1;
@@ -44,12 +58,13 @@ class Wordcloud extends Component {
       tempYear += Math.floor(tempMonth / 12);
       tempMonth %= 12;
 
-      const tempWords = data[`${tempYear}-${tempMonth}`] || [];
+      const tempWords = data[`${tempYear}-${(tempMonth + 1).toString().padStart(2, '0')}`] || [];
       tempWords.forEach(word => {
         if (newWords[word.text]) newWords[word.text]['value'] += word.value;
         else newWords[word.text] = { value: word.value };
       })
-    } while (tempMonth !== maxMonth || tempYear !== maxYear)
+    } while (tempMonth !== maxMonth || tempYear !== maxYear);
+
     const words = [];
     Object.keys(newWords).forEach(word => {
       words.push({
@@ -70,22 +85,24 @@ class Wordcloud extends Component {
     return (
       <div>
         <WordCloudWrapper
-          data={this.state.words}
-          fontSizeMapper={word => Math.log2(word.value) * 10}
-          rotate={word => word.value % 360}
+          data={words}
+          fontSizeMapper={word => Math.log2(word.value) * this.state.multiplier}
+          rotate={word => word.value % 160 - 80}
+          width={this.props.width}
+          height={this.props.height - 40}
         />
         <div className="slider">
           <InputRange
             allowSameValues
             draggableTrack
             minValue={0}
-            maxValue={47}
+            maxValue={46}
             value={this.state.value}
             onChange={value => {
               if (value.min < 0) value.min = 0;
               if (value.max < 0) value.max = 0;
-              if (value.min > 47) value.min = 47;
-              if (value.max > 47) value.max = 47;
+              if (value.min > 46) value.min = 46;
+              if (value.max > 46) value.max = 46;
               this.setState({ value })
             }}
             onChangeComplete={this.calculateWordCloud}
@@ -99,6 +116,8 @@ class Wordcloud extends Component {
 class WordCloudWrapper extends Component {
   shouldComponentUpdate(nextProps, nextState) {
     if (nextProps.data !== this.props.data) return true;
+    if (nextProps.height !== this.props.height) return true;
+    if (nextProps.width !== this.props.width) return true;
     return false;
   }
   render() {

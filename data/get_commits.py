@@ -21,6 +21,16 @@ def api_helper(url):
 
 for i in range(len(owners)):
   commits = {}
+  
+  d = datetime.date(2015, 1, 10)
+  while True:
+    s = d.strftime("%Y-%m-%d")
+    commits[s] = 0
+    if d.year == 2018 and d.month == 11 and d.day == 30:
+      break
+    d = d + datetime.timedelta(days=1)
+    print(s)
+
   url = issues_api.format(owner=owners[i], repo=repos[i])
   req, next_link = api_helper(url)
 
